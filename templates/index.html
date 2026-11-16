@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lead Finder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <h1>Lead Finder</h1>
+    <p>Search Google Maps for businesses and export their public contact details.</p>
+  </header>
+
+  <main>
+    <form id="search-form" class="panel search" autocomplete="off">
+      <label>
+        <span>Business type</span>
+        <input type="text" id="keyword" placeholder="e.g. dentists, coffee shops" required>
+      </label>
+      <label>
+        <span>Location</span>
+        <input type="text" id="location" placeholder="e.g. Lahore, Pakistan" required>
+      </label>
+      <label class="narrow">
+        <span>Max results</span>
+        <select id="max-results">
+          <option value="20" selected>20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+          <option value="100">100</option>
+        </select>
+      </label>
+      <button type="submit" id="search-btn" class="btn btn-primary">Search businesses</button>
+    </form>
+
+    <div id="progress" class="panel progress" hidden>
+      <div class="progress-text">
+        <span id="progress-msg">Starting…</span>
+        <span id="progress-count" class="muted"></span>
+      </div>
+      <div class="bar"><div id="bar-fill"></div></div>
+      <button type="button" id="stop-btn" class="btn">Stop</button>
+    </div>
+
+    <div id="message" class="banner" hidden role="status"></div>
+
+    <section id="results" class="panel results" hidden>
+      <div class="results-bar">
+        <div>
+          <strong id="count">0</strong> businesses found
+          <span id="visible-note" class="muted"></span>
+        </div>
+        <div class="filters">
+          <label class="check"><input type="checkbox" id="f-website"> Has website</label>
+          <label class="check"><input type="checkbox" id="f-phone"> Has phone</label>
+        </div>
+        <div class="exports">
+          <button type="button" class="btn" id="export-csv">Download CSV</button>
+          <button type="button" class="btn btn-primary" id="export-xlsx">Download Excel</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Business</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Website</th>
+              <th class="num">Rating</th>
+              <th>Status</th>
+              <th>Map</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="muted foot">
+        Data is read from public Google Maps pages, so emails are not available. Exports include only the rows currently shown.
+      </p>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
